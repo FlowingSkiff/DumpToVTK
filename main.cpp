@@ -1,5 +1,5 @@
 #include<iostream>
-#include"OutputVTK.hh"
+#include"OutputVTK.cpp"
 #include<string.h>
 using namespace std;
 using namespace D;
