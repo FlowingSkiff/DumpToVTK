@@ -239,14 +239,20 @@ void Dumpfile::Wrap()
     {
         std::cout << "Wraping atoms.\n";
     }
-    bool bondFlag = true, angleFlag = false;
+    bool bondFlag =  Properties::Get().GenerateLines();
+    bool angleFlag = Properties::Get().GenerateTris();
+    
+    // For each molecule, a map for each bond/tri holding each
+    // atom id is needed. A molecule is wrapped to the +x, +y, +z
+    // side if the length between two atoms in a bond/tri is 
+    // greater than half the total domain.
+
     const auto& bondMap = m_geofile->GetMoleculeBondMap();
     const auto& angleMap = m_geofile->GetMoleculeAngleMap();
-    if (bondMap.size() == 0)
-    {
+    if (bondFlag && bondMap.size() == 0)
         bondFlag = false;
-        angleFlag = angleMap.size() > 0;
-    }
+    if (angleFlag && angleMap.size() == 0)
+        angleFlag = false;
     if (!bondFlag && !angleFlag)
         return;
 
@@ -268,8 +274,8 @@ void Dumpfile::Wrap()
                 for (uint32_t x = 0u; x < 3u; ++x)
                 {
                     uint32_t index = m_atomProperties.xyz.at(x);
-                    uint32_t atom0 = bond.at(0);
-                    uint32_t atom1 = bond.at(1);
+                    uint32_t atom0 = bond.at(0) - 1; // Atom id starts at 1
+                    uint32_t atom1 = bond.at(1) - 1; // atom id starts at 1
                     if (Difference(atom0, atom1, index) > maxLength.at(x))
                     {
                         shouldShift.at(x) = true;
@@ -290,9 +296,9 @@ void Dumpfile::Wrap()
                         for (uint32_t x = 0u; x < 3u && shouldShift.at(x); ++x)
                         {
                             uint32_t index = m_atomProperties.xyz.at(x);
-                            if (m_data.at(atom).at(index) < shift.at(x))
+                            if (m_data.at(atom - 1).at(index) < shift.at(x))
                             {
-                                m_data.at(atom).at(index) += shift.at(index);
+                                m_data.at(atom - 1).at(index) += shift.at(x);
                             }
                         }
                     }
@@ -312,9 +318,9 @@ void Dumpfile::Wrap()
                 for (uint32_t x = 0u; x < 3u; ++x)
                 {
                     uint32_t index = m_atomProperties.xyz.at(x);
-                    uint32_t atom0 = angle.at(0);
-                    uint32_t atom1 = angle.at(1);
-                    uint32_t atom2 = angle.at(2);
+                    uint32_t atom0 = angle.at(0) - 1; // atom id starts at 1
+                    uint32_t atom1 = angle.at(1) - 1; // atom id starts at 1
+                    uint32_t atom2 = angle.at(2) - 1; // atom id starts at 1
                     if (MaxDifference(atom0, atom1, atom2, index) > maxLength.at(x))
                     {
                         shouldShift.at(x) = true;
@@ -335,9 +341,9 @@ void Dumpfile::Wrap()
                         for (uint32_t x = 0u; x < 3u && shouldShift.at(x); ++x)
                         {
                             uint32_t index = m_atomProperties.xyz.at(x);
-                            if (m_data.at(atom).at(index) < shift.at(x))
+                            if (m_data.at(atom - 1).at(index) < shift.at(x))
                             {
-                                m_data.at(atom).at(index) += shift.at(index);
+                                m_data.at(atom - 1).at(index) += shift.at(x);
                             }
                         }
                     }
