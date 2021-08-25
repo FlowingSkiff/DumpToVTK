@@ -262,6 +262,7 @@ void Dumpfile::Wrap()
         shift[i] = m_bounds[i][1] - m_bounds[i][0];
         maxLength[i] = shift[i] / 2.0;
     }
+    // TODO: This is not working correctly yet. 
     if (bondFlag)
     {
         for (const auto& mol : bondMap)
@@ -276,7 +277,8 @@ void Dumpfile::Wrap()
                     uint32_t index = m_atomProperties.xyz.at(x);
                     uint32_t atom0 = bond.at(0) - 1; // Atom id starts at 1
                     uint32_t atom1 = bond.at(1) - 1; // atom id starts at 1
-                    if (Difference(atom0, atom1, index) > maxLength.at(x))
+                    auto diff = Difference(atom0, atom1, index);
+                    if (diff > maxLength.at(x))
                     {
                         shouldShift.at(x) = true;
                         if (std::all_of(shouldShift.begin(), shouldShift.end(), [](const auto& b){return b;}))
@@ -293,10 +295,11 @@ void Dumpfile::Wrap()
                 {
                     for (const auto& atom : bond)
                     {
-                        for (uint32_t x = 0u; x < 3u && shouldShift.at(x); ++x)
+                        for (uint32_t x = 0u; x < 3u; ++x)
                         {
+                            if (!shouldShift.at(x)) continue;
                             uint32_t index = m_atomProperties.xyz.at(x);
-                            if (m_data.at(atom - 1).at(index) < shift.at(x))
+                            if (m_data.at(atom - 1).at(index) < shift.at(x) * 0.5)
                             {
                                 m_data.at(atom - 1).at(index) += shift.at(x);
                             }
@@ -341,7 +344,7 @@ void Dumpfile::Wrap()
                         for (uint32_t x = 0u; x < 3u && shouldShift.at(x); ++x)
                         {
                             uint32_t index = m_atomProperties.xyz.at(x);
-                            if (m_data.at(atom - 1).at(index) < shift.at(x))
+                            if (m_data.at(atom - 1).at(index) < shift.at(x) * 0.5)
                             {
                                 m_data.at(atom - 1).at(index) += shift.at(x);
                             }
