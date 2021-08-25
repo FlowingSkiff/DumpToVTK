@@ -1,2 +1,8 @@
 *.o
 LammpsToVtk
+LammpsToVTK.exe
+build
+.vscode
+test/vtks
+unixbuild
+dep
