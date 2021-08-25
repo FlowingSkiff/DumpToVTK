@@ -116,7 +116,7 @@ bool OutputVTKs()
             }
             else if (match[1].str().find("ATOMS") != std::string::npos)
             {
-                //match is: 'ATOMS id mol type x y z vx vy vz'
+                // match is: 'ATOMS id mol type x y z vx vy vz'
                 // columns is the same number of spaces
                 if (properties.GetVerbose())
                 {
