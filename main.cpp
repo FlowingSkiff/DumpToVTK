@@ -112,6 +112,8 @@ static bool ParseArguments(const int& argc, char** argv)
                             }
                             break;
                         }
+                    case ' ': // if extra space, break;
+                        break;
                     default:
                         shouldExit = true;
                         break;
