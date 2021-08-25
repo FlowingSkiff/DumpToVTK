@@ -7,5 +7,8 @@ project (LammpsToVTK)
 
 file(GLOB sources ${PROJECT_SOURCE_DIR}/*.cpp ${PROJECT_SOURCE_DIR}/*.hpp)
 
-add_compile_options(-Wall -Wfloat-conversion -O3)
+add_compile_options("$<$<CONFIG:RELEASE>:-W;-Wall;-Wfloat-conversion;-O3>")
+add_compile_options("$<$<CONFIG:DEBUG>:-W;-Wall;-Wfloat-conversion;-O0;-g>")
+
+
 add_executable(${PROJECT_NAME} ${sources})
