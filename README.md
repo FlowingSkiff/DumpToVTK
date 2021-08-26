@@ -6,6 +6,20 @@ Reading is done single threaded, but multi-threaded writing is supported.
 Lines and triangles can optionally be created by passing an input file where atoms, bonds, and angles are defined. 
 Bonds are used to create lines and angles are used to create triangles. 
 
+## Installation
+```bash
+git clone https://github.com/FlowingSkiff/LammpsToVTK.git
+cd LammpsToVTK
+mkdir build
+cd build
+cmake ..
+make
+```
+
+
+
+## Use
+
 Usage is: LammpsToVTK [OPTION] -i [INPUTFILE] -o [OUTPUTFILE]
 
 Options include:
