@@ -11,20 +11,7 @@
 #include <sstream>
 #include "wrapped.hpp"
 #include <deque>
-
-
-
-// Wrapper for the multithreaded geofile reading
-static void LoadGeoFile(std::shared_ptr<Geofile> geofile, const std::string& filename)
-{
-    geofile->Read(filename);
-}
-
-// Wrapper for the multithreaded dumpfile writing
-static void WriteDumpfile(Dumpfile* dumpfile)
-{
-    dumpfile->Write();
-}
+#include <list>
 
 // Creates a filename string using the base string and current timestep
 // hard coded to use 8 digits to represent the timestep
@@ -58,15 +45,18 @@ bool OutputVTKs()
         geofile = std::shared_ptr<Geofile>(new Geofile);
         if (properties.GetMultithreaded())
         {
-            threads.emplace_back(LoadGeoFile, geofile,  properties.GetMoleculeFile());
+            threads.emplace_back(&Geofile::Read, std::ref(*geofile),  properties.GetMoleculeFile());
             geofilethread = &threads.back();
+            ++threadIndex;
         }
         else
+        {
             geofile->Read(properties.GetMoleculeFile());
+        }
     }
 
     // load in and start working with the dump file
-    std::vector<Dumpfile> dumpfiles; 
+    std::list<Dumpfile> dumpfiles; 
     std::ifstream inputfile(Properties::Get().GetInputFile());
     const std::regex itemExpression("ITEM: ([A-Z\\sa-z]*)");
     std::string line, timestep;
@@ -164,13 +154,14 @@ bool OutputVTKs()
                 {
                     if (threads.size() == properties.GetNumberOfThreads())
                     {
-                        threads.front().join();
-                        threads.pop_front();
-                        threads.emplace_back(WriteDumpfile, &dumpfiles.back());
+                        threads.at(threadIndex.GetValue()).join();
+                        threads.at(threadIndex.GetValue()) = std::move(std::thread(&Dumpfile::Write, std::ref(dumpfiles.back())));
+                        ++threadIndex;
                     }
                     else
                     {
-                        threads.emplace_back(WriteDumpfile, &dumpfiles.back());
+                        threads.emplace_back(&Dumpfile::Write, std::ref(dumpfiles.back()));
+                        ++threadIndex;
                     }
                 }
                 else

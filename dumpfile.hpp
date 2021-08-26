@@ -22,9 +22,8 @@ public:
                 const std::array<std::array<double, 2>, 3>&,
                 const std::vector<std::string>&,
                 const std::shared_ptr<const Geofile>&);
-    //Dumpfile(const Dumpfile& copy) = delete; // should never copy
-    //Dumpfile(const Dumpfile&& move) = delete; // Should never move
     Dumpfile() = delete;
+    Dumpfile(const Dumpfile&) = delete;
     void SetSize(uint32_t, uint32_t); // Set the size of m_data
     void SetBoundary(const std::array<std::array<double, 2>, 3>&);
 public: 

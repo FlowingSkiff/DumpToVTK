@@ -9,9 +9,7 @@ public:
         { }
     Wrapped& operator++()
     {
-        ++m_data;
-        if (m_data >= m_max)
-            m_data %= m_max;
+        m_data = ++m_data % m_max;
         return *this;
     }
     Wrapped& operator++(int)
