@@ -34,4 +34,4 @@ Exit status is always 0 when everything runs fine,  and 1 in the event of
 an error.
 
 Example for running the test files:
-LammpsToVTK -i ciliacarrier.dump -o vtks\OutputVTK -m cilia1000.in -n 8 -l -t
+LammpsToVTK -i output.dump -o vtks\OutputVTK -m atomDefinition.in -n 8 -l -t
