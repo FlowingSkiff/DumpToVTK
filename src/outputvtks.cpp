@@ -134,7 +134,8 @@ bool OutputVTKs()
                 {
                     if (!geofileHasJoined && geofilethread)
                     {
-                        geofilethread->join();
+                        if (geofilethread->joinable())
+                            geofilethread->join();
                         geofileHasJoined = true;
                     }
                     dumpfiles.emplace_back( CreateFilename(properties.GetOutputFile(), timestep),
