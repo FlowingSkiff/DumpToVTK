@@ -1,14 +1,16 @@
 # LammpsToVTK
-LammpsToVTK converts a LAMMPS dump file to vtk format. It can take in a 2D or 3D file with an arbitrary amount of other dumped atom properties. 
-The read atom properties are assumed to follow the standard LAMMPS format where _%x, %y, %z_ is treated as a vector quantity and all other properties are scalars. 
-Reading is done single threaded, but multi-threaded writing is supported. 
 
-Lines and triangles can optionally be created by passing an input file where atoms, bonds, and angles are defined. 
-Bonds are used to create lines and angles are used to create triangles. 
-When a bond or angle has atoms which are wrapped about a periodic boundary, atom positioned on the lower boundary are shifted above the upper boundary. 
+LammpsToVTK converts a LAMMPS dump file to vtk format. It can take in a 2D or 3D file with an arbitrary amount of other dumped atom properties.
+The read atom properties are assumed to follow the standard LAMMPS format where _%x, %y, %z_ is treated as a vector quantity and all other properties are scalars.
+Reading is done single threaded, but multi-threaded writing is supported.
+
+Lines and triangles can optionally be created by passing an input file where atoms, bonds, and angles are defined.
+Bonds are used to create lines and angles are used to create triangles.
+When a bond or angle has atoms which are wrapped about a periodic boundary, atom positioned on the lower boundary are shifted above the upper boundary.
 _This unwrapping functionality only occurs when a geography file is used._
 
 ## Installation
+
 ```bash
 git clone https://github.com/FlowingSkiff/LammpsToVTK.git
 cd LammpsToVTK
@@ -33,7 +35,7 @@ Options include:
 | -n | __INTEGER__ | Specifies the maximum number of threads used, defaults to single-threaded |
 | -v | __NONE__ | Enables verbose messaging to the console |
 | -h | __NONE__ | Displays the help message |
- 
+
 Exit status is always 0 when everything runs fine, and 1 in the event of an error.
 
 Example for running the test files:
