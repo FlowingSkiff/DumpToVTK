@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_GENERATOR "MinGW Makefiles")
-message("using ${CMAKE_GENERATOR} for makefile generation")
 
 # set the project name
 project (LammpsToVTK)
@@ -12,3 +10,5 @@ add_compile_options("$<$<CONFIG:DEBUG>:-W;-Wall;-Wfloat-conversion;-O0;-g>")
 
 
 add_executable(${PROJECT_NAME} ${sources})
+find_package( Threads REQUIRED)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
