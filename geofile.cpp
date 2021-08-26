@@ -100,12 +100,12 @@ bool Geofile::Read(const std::string& filename)
     }
     for (const auto& bond : m_bonds)
     {
-        uint32_t mol = static_cast<uint32_t>(atomData.at(bond.at(0)).at(Attribute::MOL));
+        uint32_t mol = static_cast<uint32_t>(atomData.at(bond.at(0) - 1).at(Attribute::MOL));
         m_molBondMap[mol].emplace_back(bond);
     }
     for (const auto& angle : m_triangles)
     {
-        uint32_t mol = static_cast<uint32_t>(atomData.at(angle.at(0)).at(Attribute::MOL));
+        uint32_t mol = static_cast<uint32_t>(atomData.at(angle.at(0) - 1).at(Attribute::MOL));
         m_molAngleMap[mol].emplace_back(angle);
     }
     return m_status = true;;

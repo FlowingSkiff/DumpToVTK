@@ -268,16 +268,16 @@ void Dumpfile::Wrap()
         for (const auto& mol : bondMap)
         {
             if (mol.first == 0) continue;
-            std::array<bool, 3> shouldShift{{false, false, false}};
+            std::array<bool, 3> shouldShift{false, false, false};
             bool shouldBreak = false;
             for (const auto& bond : mol.second)
             {
+                uint32_t atom0 = bond.at(0) - 1; // Atom id starts at 1
+                uint32_t atom1 = bond.at(1) - 1; // atom id starts at 1
                 for (uint32_t x = 0u; x < 3u; ++x)
                 {
                     uint32_t index = m_atomProperties.xyz.at(x);
-                    uint32_t atom0 = bond.at(0) - 1; // Atom id starts at 1
-                    uint32_t atom1 = bond.at(1) - 1; // atom id starts at 1
-                    auto diff = Difference(atom0, atom1, index);
+                    double diff = Difference(atom0, atom1, index);
                     if (diff > maxLength.at(x))
                     {
                         shouldShift.at(x) = true;
@@ -288,6 +288,7 @@ void Dumpfile::Wrap()
                     }
                     if (shouldBreak) break;
                 }
+                if (shouldBreak) break;
             }
             if (std::any_of(shouldShift.begin(), shouldShift.end(), [](const auto& b){ return b;}))
             {
