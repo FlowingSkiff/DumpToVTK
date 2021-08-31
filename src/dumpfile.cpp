@@ -95,7 +95,7 @@ bool Dumpfile::Write()
         return false;
     }
     outfile << "# vtk DataFile Version 2.0\n";
-    outfile << "From Lammps 2 vtk code\n";
+    outfile << "From Dump 2 vtk code\n";
     outfile << "ASCII\n";
     outfile << "DATASET POLYDATA\n";
     outfile << "POINTS " << m_data.size() << " FLOAT\n";

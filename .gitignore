@@ -1,6 +1,6 @@
 *.o
-LammpsToVtk
-LammpsToVTK.exe
+DumpToVTK
+DumpToVTK.exe
 build
 .vscode
 test/vtks

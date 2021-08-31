@@ -8,7 +8,7 @@ Properties Properties::m_instance;
 static void PrintHelp()
 {
     using std::cout;
-    cout << "Usage is: LammpsToVTK [OPTION] -i [INPUTFILE] -o [OUTPUTFILE]\n"
+    cout << "Usage is: DumpToVTK [OPTION] -i [INPUTFILE] -o [OUTPUTFILE]\n"
             "Converts a lammps dump file to a vtk format and writes a seperate file for each\n"
             "timestep. \n"
             "\n"
@@ -46,7 +46,7 @@ static bool ParseArguments(const int& argc, char** argv)
     bool shouldExit = false;
     // Minimum is be 5 arguments, 
     // 0            1   2       3   4
-    //LammpsToVtk   -i  input   -o  output
+    //DumpToVTK   -i  input   -o  output
     if (argc < 5)
     {
         std::cout << "Not enough input arguments\n";

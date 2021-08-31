@@ -1,7 +1,7 @@
-# LammpsToVTK
+# DumpToVTK
 
-LammpsToVTK converts a LAMMPS dump file to vtk format. It can take in a 2D or 3D file with an arbitrary amount of other dumped atom properties.
-The read atom properties are assumed to follow the standard LAMMPS format where _%x, %y, %z_ is treated as a vector quantity and all other properties are scalars.
+DumpToVTK converts a LAMMPS dump file to vtk format. It can take in a 2D or 3D file with an arbitrary amount of other dumped atom properties.
+The read atom properties are assumed to follow the standard LAMMPS dump format where _%x, %y, %z_ is treated as a vector quantity and all other properties are scalars.
 Reading is done single threaded, but multi-threaded writing is supported.
 
 Lines and triangles can optionally be created by passing an input file where atoms, bonds, and angles are defined.
@@ -12,8 +12,8 @@ _This unwrapping functionality only occurs when a geography file is used._
 ## Installation
 
 ```bash
-git clone https://github.com/FlowingSkiff/LammpsToVTK.git
-cd LammpsToVTK
+git clone https://github.com/FlowingSkiff/DumpToVTK.git
+cd DumpToVTK
 mkdir build
 cd build
 cmake ..
@@ -22,7 +22,7 @@ make
 
 ## Use
 
-Usage is: LammpsToVTK [OPTION] -i [INPUTFILE] -o [OUTPUTFILE]
+Usage is: DumpToVTK [OPTION] -i [INPUTFILE] -o [OUTPUTFILE]
 
 Options include:
 | Arg | Next Arg Type | Description |
@@ -39,4 +39,4 @@ Options include:
 Exit status is always 0 when everything runs fine, and 1 in the event of an error.
 
 Example for running the test files:
->.\LammpsToVTK -i output.dump -o vtks\OutputVTK -m atomDefinition.in -n 8 -l -t
+>.\DumpToVTK -i output.dump -o vtks\OutputVTK -m atomDefinition.in -n 8 -l -t

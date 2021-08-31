@@ -21,7 +21,7 @@ static std::string CreateFilename(const std::string& base, const std::string& ti
 }
 
 /**
- * @brief Reads in the input file from LAMMPS and writes out
+ * @brief Reads in the dump file and writes out
  * the data in vtk format
  * 
  * @return true Always return true right now
